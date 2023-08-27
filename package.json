@@ -11,6 +11,11 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "nuxt": "^3.6.5"
+    "@types/js-cookie": "^3.0.3",
+    "nuxt": "^3.7.0"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.5",
+    "mande": "^2.0.7"
   }
 }
