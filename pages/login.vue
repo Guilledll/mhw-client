@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { login, getCsrfCookie } from "#api/auth";
+import { login, getCsrfCookie } from "@api/authApi";
 
 const form = reactive({
   email: "",
@@ -8,35 +8,36 @@ const form = reactive({
 
 async function submit() {
   getCsrfCookie().then(async () => {
-    const res = await login(form);
+    const { ok } = await login(form);
 
-    console.log(res);
+    if (ok) return navigateTo("/");
   });
 }
 </script>
 
 <template>
-  <form @submit.prevent="submit">
-    <div>
-      <label for="email">Correo Electronico</label>
-      <input
+  <main class="flex min-h-full flex-1 flex-col justify-center items-center">
+    <VForm
+      @submit.prevent="submit"
+      class="max-w-3xl p-6 border border-red-100 rounded"
+    >
+      <VTextField
         v-model="form.email"
+        label="Correo"
+        placeholder="mi-mail@email.com"
         type="email"
-        name="email"
         autocomplete="email"
-        placeholder="Correo"
+        variant="solo"
       />
-    </div>
-    <div>
-      <label for="email">Contraseña</label>
-      <input
+      <VTextField
         v-model="form.password"
+        label="Contraseña"
+        placeholder="********"
         type="password"
-        name="password"
-        placeholder="Contraseña"
+        autocomplete="current-password"
+        variant="solo"
       />
-      <!-- autocomplete="current-password" -->
-    </div>
-    <button type="submit">Ingresar</button>
-  </form>
+      <VBtn color="primary" variant="tonal" type="submit">Ingresar</VBtn>
+    </VForm>
+  </main>
 </template>

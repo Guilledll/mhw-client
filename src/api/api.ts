@@ -1,9 +1,9 @@
 import cookies from "js-cookie";
 
-const api = "http://localhost";
+const api = "http://127.0.0.1";
 
-const isNoContent = (res: Response) =>
-  res.status === 204 || res.statusText === "No Content";
+const hasContent = (res: Response) =>
+  res.status !== 204 || res.statusText !== "No Content";
 const isError = (res: Response) =>
   !(res.status >= 200 && res.status < 300) || !res.ok;
 
@@ -52,7 +52,7 @@ export default async function <T = any>(
 
     if (isError(res)) {
       response.error = (await res.json()) as ErrorResponse;
-    } else if (isNoContent(res)) {
+    } else if (hasContent(res)) {
       response.data = (await res.json()) as T;
     }
 

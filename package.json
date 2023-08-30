@@ -9,10 +9,11 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
+    "@nuxt/devtools": "^0.8.2",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/js-cookie": "^3.0.3",
-    "nuxt": "^3.7.0"
+    "nuxt": "^3.7.0",
+    "vuetify-nuxt-module": "^0.5.7"
   },
   "dependencies": {
     "js-cookie": "^3.0.5",

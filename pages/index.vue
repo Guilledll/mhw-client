@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getServerTime } from "#api/server";
+import { getServerTime } from "@api/serverApi";
 
 const time = ref();
 
