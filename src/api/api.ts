@@ -1,6 +1,6 @@
 import cookies from "js-cookie";
 
-const api = "http://127.0.0.1";
+const api = "http://localhost";
 
 const hasContent = (res: Response) =>
   res.status !== 204 || res.statusText !== "No Content";

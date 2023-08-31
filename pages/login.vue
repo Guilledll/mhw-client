@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { login, getCsrfCookie } from "@api/authApi";
+import { login, getCsrfCookie } from "~/src/api/authApi";
+import { getUser } from "~/src/api/userApi";
+
+definePageMeta({ middleware: "guest" });
 
 const form = reactive({
   email: "",
@@ -7,11 +10,16 @@ const form = reactive({
 });
 
 async function submit() {
-  getCsrfCookie().then(async () => {
-    const { ok } = await login(form);
+  await getCsrfCookie();
 
-    if (ok) return navigateTo("/");
-  });
+  const { ok } = await login(form);
+
+  if (ok) {
+    await useAsyncData("user", () => getUser(), {
+      transform: (r) => r.data,
+    });
+    return navigateTo("/");
+  }
 }
 </script>
 
