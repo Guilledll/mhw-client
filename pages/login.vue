@@ -2,50 +2,84 @@
 import { login, getCsrfCookie } from "~/src/api/authApi";
 import { getUser } from "~/src/api/userApi";
 
+import Button from "@/components/btn/Button.vue";
+import Input from "@/components/form/Input.vue";
+import { ErrorResponse } from "~/src/api/api";
+
 definePageMeta({ middleware: "guest" });
 
-const form = reactive({
+const { loading, invertLoad } = useLoading();
+
+interface formType {
+  [key: string]: string;
+  email: string;
+  password: string;
+}
+
+const form = reactive<formType>({
+  email: "guille@mhw.comxx",
+  password: "password_1",
+});
+
+const formErrors = reactive<formType>({
   email: "",
   password: "",
 });
 
 async function submit() {
-  await getCsrfCookie();
+  invertLoad();
 
-  const { ok } = await login(form);
+  await getCsrfCookie();
+  const { ok, error } = await login(form);
+
+  if (!ok && error) {
+    handleErrors(error);
+    return invertLoad();
+  }
 
   if (ok) {
-    await useAsyncData("user", () => getUser(), {
+    const { status } = await useAsyncData("user", () => getUser(), {
       transform: (r) => r.data,
     });
-    return navigateTo("/");
+    invertLoad();
+    if (status.value === "success") return navigateTo("/", { replace: true });
+  }
+}
+
+function handleErrors(e: ErrorResponse<formType>) {
+  for (const key in e.errors) {
+    formErrors[key] = e.errors[key][0];
   }
 }
 </script>
 
 <template>
-  <main class="flex min-h-full flex-1 flex-col justify-center items-center">
-    <VForm
+  <main class="flex h-full flex-1 flex-col justify-center items-center">
+    <form
       @submit.prevent="submit"
-      class="max-w-3xl p-6 border border-red-100 rounded"
+      class="max-w-4xl px-6 py-10 rounded-md flex flex-col gap-3"
     >
-      <VTextField
+      <!-- autocomplete="email" -->
+      <Input
         v-model="form.email"
-        label="Correo"
-        placeholder="mi-mail@email.com"
+        id="email"
         type="email"
-        autocomplete="email"
-        variant="solo"
+        placeholder="correo@mail.com"
+        label="Correo"
+        :error="formErrors.email"
+        required
       />
-      <VTextField
+      <!-- autocomplete="current-password" -->
+      <Input
         v-model="form.password"
-        label="Contraseña"
+        id="password"
         placeholder="********"
         type="password"
-        autocomplete="current-password"
-        variant="solo"
+        label="Contraseña"
+        :error="formErrors.password"
+        required
       />
-      <VBtn color="primary" variant="tonal" type="submit">Ingresar</VBtn>
-    </VForm>
+      <Button type="submit" :loading="loading">Ingresar</Button>
+    </form>
   </main>
 </template>

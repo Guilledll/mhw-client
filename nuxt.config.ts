@@ -1,23 +1,18 @@
-import { fileURLToPath, URL } from "node:url";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
     head: {
-      htmlAttrs: { class: "h-screen" },
+      htmlAttrs: { class: "h-screen", lang: "es" },
       bodyAttrs: { class: "h-screen" },
       title: "Mis Horas",
     },
   },
 
+  components: false,
+
   devtools: { enabled: true },
 
-  modules: ["@nuxtjs/tailwindcss", "vuetify-nuxt-module"],
-
-  vuetify: {
-    moduleOptions: { importComposables: false },
-    vuetifyOptions: { icons: false },
-  },
+  modules: ["@nuxtjs/tailwindcss"],
 
   ssr: false,
 });

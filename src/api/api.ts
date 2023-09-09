@@ -16,10 +16,10 @@ interface ApiRequestOptions extends RequestInit {
   body?: any;
 }
 
-interface ErrorResponse {
+export type ErrorResponse<T = any> = {
   message: string;
-  errors?: string[];
-}
+  errors?: { [key in keyof T]: string[] };
+};
 
 interface ApiResponse<T = any> {
   ok: boolean;

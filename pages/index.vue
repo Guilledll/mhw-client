@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getServerTime } from "~/src/api/serverApi";
 import { logout } from "~/src/api/authApi";
+import { User } from "~/src/types/user";
 
 definePageMeta({ middleware: "auth" });
 
@@ -12,7 +13,7 @@ async function getTime() {
   time.value = ok ? data.time : error?.message;
 }
 
-const { data: user } = useNuxtData("user");
+const { data: user } = useNuxtData<User>("user");
 
 async function logoutUser() {
   const { status } = await useAsyncData("user", () => logout(), {
@@ -20,7 +21,7 @@ async function logoutUser() {
   });
 
   if (status.value === "success") {
-    return navigateTo("/login");
+    return navigateTo("/login", { replace: true });
   }
 }
 </script>
