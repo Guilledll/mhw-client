@@ -1,22 +1,24 @@
 <script lang="ts" setup>
-import { getServerTime } from "~/src/api/serverApi";
-import { logout } from "~/src/api/authApi";
-import { User } from "~/src/types/user";
+import type { User } from "~/src/types/models/user";
 
-definePageMeta({ middleware: "auth" });
+definePageMeta({ middleware: "guest" });
 
 const time = ref();
+const config = useRuntimeConfig();
 
 async function getTime() {
-  const { data, ok, error } = await getServerTime();
-
-  time.value = ok ? data.time : error?.message;
+  const { data } = await useFetch("/api/server-time");
+  time.value = data.value;
 }
 
 const { data: user } = useNuxtData<User>("user");
 
 async function logoutUser() {
-  const { status } = await useAsyncData("user", () => logout(), {
+  const { status } = await useFetch(config.public.apiUrl + "/logout", {
+    method: "POST",
+    key: "user",
+    credentials: "include",
+    headers: headers(),
     transform: () => null,
   });
 
@@ -27,10 +29,12 @@ async function logoutUser() {
 </script>
 
 <template>
+  <hr />
   <button @click="getTime">kkk</button>
   {{ time }}
   <hr />
   <button @click="logoutUser">Cerrar sesion</button>
   <hr />
   {{ user }}
+  <NuxtLink to="login" no-prefetch>login</NuxtLink>
 </template>

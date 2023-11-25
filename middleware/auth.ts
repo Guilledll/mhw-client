@@ -1,7 +1,5 @@
-import type { User } from "~/src/types/user";
-
 export default defineNuxtRouteMiddleware((to, from) => {
-  const { data: user } = useNuxtData<User>("user");
+  const { data: user } = useNuxtData("user");
 
-  if (!user.value) return navigateTo({ path: "/login" });
+  if (!user.value && to.path !== "login") return navigateTo({ path: "/login" });
 });

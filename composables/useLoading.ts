@@ -12,9 +12,9 @@ export default function () {
     loading.value = false;
   }
 
-  function invertLoad() {
+  function toggleLoad() {
     loading.value = !loading.value;
   }
 
-  return { loading, invertLoad, startLoad, stopLoad };
+  return { loading, toggleLoad, startLoad, stopLoad };
 }

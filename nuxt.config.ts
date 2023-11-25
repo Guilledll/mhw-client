@@ -12,7 +12,20 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  devServer: { host: "localhost" },
+
   modules: ["@nuxtjs/tailwindcss"],
 
-  ssr: false,
+  routeRules: {
+    "/api/**": { proxy: { to: "http://localhost/api/**" } },
+  },
+
+  runtimeConfig: {
+    public: {
+      appUrl: "http://localhost:3000",
+      apiUrl: "http://localhost",
+    },
+  },
+
+  ssr: true,
 });

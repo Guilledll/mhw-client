@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { login, getCsrfCookie } from "~/src/api/authApi";
-import { getUser } from "~/src/api/userApi";
-
 import Button from "@/components/btn/Button.vue";
 import Input from "@/components/form/Input.vue";
-import { ErrorResponse } from "~/src/api/api";
 
 definePageMeta({ middleware: "guest" });
 
-const { loading, invertLoad } = useLoading();
+const { loading, toggleLoad } = useLoading();
+const config = useRuntimeConfig();
+const API_URL = config.public.apiUrl;
 
 interface formType {
   [key: string]: string;
@@ -17,8 +15,8 @@ interface formType {
 }
 
 const form = reactive<formType>({
-  email: "guille@mhw.comxx",
-  password: "password_1",
+  email: "guille@mhw.com",
+  password: "password",
 });
 
 const formErrors = reactive<formType>({
@@ -27,28 +25,31 @@ const formErrors = reactive<formType>({
 });
 
 async function submit() {
-  invertLoad();
+  toggleLoad();
 
-  await getCsrfCookie();
-  const { ok, error } = await login(form);
+  // await getCsrfCookie();
 
-  if (!ok && error) {
-    handleErrors(error);
-    return invertLoad();
+  await useFetch(API_URL + "/sanctum/csrf-cookie", { credentials: "include" });
+  const { status } = await useFetch(API_URL + "/login", {
+    credentials: "include",
+    method: "POST",
+    headers: headers(),
+    body: form,
+  });
+  // const { ok, error } = await login(form);
+
+  if (status.value === "error") {
+    // handleErrors(error);
+    return toggleLoad();
   }
 
-  if (ok) {
-    const { status } = await useAsyncData("user", () => getUser(), {
-      transform: (r) => r.data,
+  if (status.value === "success") {
+    const { status } = await useFetch("/api/user", {
+      key: "user",
+      // transform: (r) => r.data,
     });
-    invertLoad();
+    toggleLoad();
     if (status.value === "success") return navigateTo("/", { replace: true });
-  }
-}
-
-function handleErrors(e: ErrorResponse<formType>) {
-  for (const key in e.errors) {
-    formErrors[key] = e.errors[key][0];
   }
 }
 </script>
@@ -59,9 +60,9 @@ function handleErrors(e: ErrorResponse<formType>) {
       @submit.prevent="submit"
       class="max-w-4xl px-6 py-10 rounded-md flex flex-col gap-3"
     >
-      <!-- autocomplete="email" -->
       <Input
         v-model="form.email"
+        autocomplete="email"
         id="email"
         type="email"
         placeholder="correo@mail.com"
@@ -69,10 +70,10 @@ function handleErrors(e: ErrorResponse<formType>) {
         :error="formErrors.email"
         required
       />
-      <!-- autocomplete="current-password" -->
       <Input
         v-model="form.password"
         id="password"
+        autocomplete="current-password"
         placeholder="********"
         type="password"
         label="Contraseña"
