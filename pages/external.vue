@@ -1,1 +1,0 @@
-<template>EXTERNAL</template>

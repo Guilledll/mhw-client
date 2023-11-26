@@ -10,14 +10,16 @@ export default defineNuxtConfig({
 
   components: false,
 
-  devtools: { enabled: true },
+  colorMode: { preference: "dark" },
+
+  devtools: { enabled: true, timeline: { enabled: true } },
 
   devServer: { host: "localhost" },
 
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: [["@nuxt/ui", { icons: ["heroicons"] }]],
 
   routeRules: {
-    "/api/**": { proxy: { to: "http://localhost/api/**" } },
+    "/api/**": { proxy: { to: process.env.INTERNAL_API_REGEX } },
   },
 
   runtimeConfig: {

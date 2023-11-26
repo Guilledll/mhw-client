@@ -1,6 +1,6 @@
-import forms from "@tailwindcss/forms";
+import type { Config } from "tailwindcss";
 
-export default {
+export default <Partial<Config>>{
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -11,5 +11,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [forms],
+  plugins: [],
 };

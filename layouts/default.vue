@@ -1,12 +1,7 @@
-<script lang="ts" setup>
-// import Navbar from "~/components/nav/navbar.vue";
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div class="p-3">
-    <!-- <Navbar /> -->
-    <slot />
-  </div>
+  <slot />
 </template>
 
 <style scoped></style>

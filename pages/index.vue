@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { User } from "~/src/types/models/user";
 
-definePageMeta({ middleware: "guest" });
+definePageMeta({ middleware: "auth" });
 
 const time = ref();
 const config = useRuntimeConfig();

@@ -1,34 +1,22 @@
 <script lang="ts" setup>
-import Button from "@/components/btn/Button.vue";
-import Input from "@/components/form/Input.vue";
+import type { FormError } from "#ui/types";
 
-definePageMeta({ middleware: "guest" });
+definePageMeta({ middleware: "guest", layout: "default" });
 
-const { loading, toggleLoad } = useLoading();
 const config = useRuntimeConfig();
 const API_URL = config.public.apiUrl;
 
-interface formType {
-  [key: string]: string;
-  email: string;
-  password: string;
-}
+const form = reactive({ email: undefined, password: undefined });
 
-const form = reactive<formType>({
-  email: "guille@mhw.com",
-  password: "password",
-});
-
-const formErrors = reactive<formType>({
-  email: "",
-  password: "",
-});
+// TODO: improve form validation
+const validate = (state: any): FormError[] => {
+  const errors = [];
+  if (!state.email) errors.push({ path: "email", message: "Required" });
+  if (!state.password) errors.push({ path: "password", message: "Required" });
+  return errors;
+};
 
 async function submit() {
-  toggleLoad();
-
-  // await getCsrfCookie();
-
   await useFetch(API_URL + "/sanctum/csrf-cookie", { credentials: "include" });
   const { status } = await useFetch(API_URL + "/login", {
     credentials: "include",
@@ -36,51 +24,34 @@ async function submit() {
     headers: headers(),
     body: form,
   });
-  // const { ok, error } = await login(form);
-
-  if (status.value === "error") {
-    // handleErrors(error);
-    return toggleLoad();
-  }
-
   if (status.value === "success") {
-    const { status } = await useFetch("/api/user", {
-      key: "user",
-      // transform: (r) => r.data,
-    });
-    toggleLoad();
-    if (status.value === "success") return navigateTo("/", { replace: true });
+    await useFetch("/api/user", { key: "user" });
+    return navigateTo("/", { replace: true });
   }
 }
 </script>
 
 <template>
-  <main class="flex h-full flex-1 flex-col justify-center items-center">
-    <form
-      @submit.prevent="submit"
-      class="max-w-4xl px-6 py-10 rounded-md flex flex-col gap-3"
+  <UContainer class="h-screen flex max-w-xl items-center">
+    <UForm
+      :validate="validate"
+      :state="form"
+      class="w-full space-y-4"
+      @submit="submit"
     >
-      <Input
-        v-model="form.email"
-        autocomplete="email"
-        id="email"
-        type="email"
-        placeholder="correo@mail.com"
-        label="Correo"
-        :error="formErrors.email"
-        required
-      />
-      <Input
-        v-model="form.password"
-        id="password"
-        autocomplete="current-password"
-        placeholder="********"
-        type="password"
-        label="Contraseña"
-        :error="formErrors.password"
-        required
-      />
-      <Button type="submit" :loading="loading">Ingresar</Button>
-    </form>
-  </main>
+      <UFormGroup label="Email" size="lg" name="email">
+        <UInput v-model="form.email" icon="i-heroicons-envelope" />
+      </UFormGroup>
+
+      <UFormGroup label="Contraseña" size="lg" name="password">
+        <UInput
+          v-model="form.password"
+          type="password"
+          icon="i-heroicons-key"
+        />
+      </UFormGroup>
+
+      <UButton type="submit" variant="soft" size="lg" block>Ingresar</UButton>
+    </UForm>
+  </UContainer>
 </template>

@@ -4,7 +4,11 @@ export default defineNuxtPlugin({
   async setup() {
     try {
       // Attempt to initalize the user before loading the app
-      await useFetch("/api/user", { key: "user", headers: headers() });
+      await useFetch("/api/user", {
+        key: "user",
+        headers: headers(),
+        getCachedData,
+      });
     } catch (error) {}
   },
 });
