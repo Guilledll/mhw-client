@@ -22,7 +22,7 @@ export function headers(heads: Head = {}): Head {
  *
  * This function is applied on `useFetch` / `useAsyncData` with options:
  *
- * ```js
+ * ```
  * // Auto import of `getCachedData` with `key` binding
  * await useFetch('/api/user', { key: 'user', getCachedData });
  * await useAsyncData('user', () => $fetch('/api/user'), { getCachedData });

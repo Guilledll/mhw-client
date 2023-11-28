@@ -1,57 +1,84 @@
 <script lang="ts" setup>
-import type { FormError } from "#ui/types";
+import { z } from "zod";
+import type { FormSubmitEvent } from "#ui/types";
+import type { ApiError } from "~/src/types/api";
 
-definePageMeta({ middleware: "guest", layout: "default" });
+definePageMeta({ middleware: "guest" });
 
 const config = useRuntimeConfig();
 const API_URL = config.public.apiUrl;
 
-const form = reactive({ email: undefined, password: undefined });
+const state = reactive({ email: undefined, password: undefined });
+const form = ref();
 
-// TODO: improve form validation
-const validate = (state: any): FormError[] => {
-  const errors = [];
-  if (!state.email) errors.push({ path: "email", message: "Required" });
-  if (!state.password) errors.push({ path: "password", message: "Required" });
-  return errors;
-};
+const { loading, startLoad, stopLoad } = useLoading();
 
-async function submit() {
+const schema = z.object({
+  email: z
+    .string({ required_error: "Correo requerido" })
+    .email("Correo incorrecto"),
+  password: z.string({ required_error: "Contraseña requerida" }),
+});
+type Schema = z.output<typeof schema>;
+
+async function submit(event: FormSubmitEvent<Schema>) {
+  form.value.clear();
+  startLoad();
+
   await useFetch(API_URL + "/sanctum/csrf-cookie", { credentials: "include" });
-  const { status } = await useFetch(API_URL + "/login", {
+
+  const { status, error } = await useFetch(API_URL + "/login", {
     credentials: "include",
     method: "POST",
     headers: headers(),
-    body: form,
+    body: event.data,
+    // `watch: false` to avoid refetch on form input change after first api fetch
+    watch: false,
   });
-  if (status.value === "success") {
-    await useFetch("/api/user", { key: "user" });
-    return navigateTo("/", { replace: true });
+
+  if (status.value === "error") {
+    form.value.setErrors(parseApiErrors(error));
+
+    return stopLoad();
   }
+
+  await useFetch("/api/user", { key: "user" });
+  return navigateTo("/", { replace: true });
 }
 </script>
 
 <template>
   <UContainer class="h-screen flex max-w-xl items-center">
     <UForm
-      :validate="validate"
-      :state="form"
+      ref="form"
+      :schema="schema"
+      :state="state"
       class="w-full space-y-4"
       @submit="submit"
     >
-      <UFormGroup label="Email" size="lg" name="email">
-        <UInput v-model="form.email" icon="i-heroicons-envelope" />
-      </UFormGroup>
-
-      <UFormGroup label="Contraseña" size="lg" name="password">
+      <UFormGroup label="Email" size="md" name="email">
         <UInput
-          v-model="form.password"
-          type="password"
-          icon="i-heroicons-key"
+          v-model="state.email"
+          icon="i-heroicons-envelope"
+          type="email"
+          autocomplete="username"
+          required
         />
       </UFormGroup>
 
-      <UButton type="submit" variant="soft" size="lg" block>Ingresar</UButton>
+      <UFormGroup label="Contraseña" size="md" name="password">
+        <UInput
+          v-model.lazy="state.password"
+          type="password"
+          icon="i-heroicons-key"
+          autocomplete="current-password"
+          required
+        />
+      </UFormGroup>
+
+      <UButton type="submit" variant="soft" size="md" :loading="loading" block>
+        Ingresar
+      </UButton>
     </UForm>
   </UContainer>
 </template>
