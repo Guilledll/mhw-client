@@ -1,4 +1,4 @@
-type Head = RequestInit["headers"];
+type Head = RequestInit['headers'];
 
 /**
  * Object with needed headers to communicate with the Backend.
@@ -9,10 +9,10 @@ export function headers(heads: Head = {}): Head {
   const config = useRuntimeConfig();
 
   return {
-    "X-XSRF-TOKEN": useCookie("XSRF-TOKEN").value,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Referer: config.public.appUrl,
+    'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Referer': config.public.appUrl,
     ...heads,
   };
 }

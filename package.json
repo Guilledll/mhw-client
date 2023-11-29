@@ -6,13 +6,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "devDependencies": {
-    "nuxt": "^3.8.2"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@nuxt/ui": "^2.11.0",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.1.1",
+    "eslint": "^8.54.0",
+    "nuxt": "^3.8.2"
   }
 }

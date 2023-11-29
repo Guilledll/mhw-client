@@ -1,11 +1,12 @@
 {
-    "recommendations": [
-        "bradlc.vscode-tailwindcss",
-        "mikestead.dotenv",
-        "vue.vscode-typescript-vue-plugin",
-        "vue.volar",
-        "esbenp.prettier-vscode",
-        "codeandstuff.package-json-upgrade",
-        "editorconfig.editorconfig"
-    ]
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "mikestead.dotenv",
+    "vue.vscode-typescript-vue-plugin",
+    "vue.volar",
+    "esbenp.prettier-vscode",
+    "codeandstuff.package-json-upgrade",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint"
+  ]
 }

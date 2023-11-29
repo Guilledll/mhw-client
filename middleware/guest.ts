@@ -1,5 +1,6 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  const { data: user } = useNuxtData("user");
+export default defineNuxtRouteMiddleware((to) => {
+  const { data: user } = useNuxtData('user');
 
-  if (user.value && to.path !== "/") return navigateTo({ path: "/" });
+  if (user.value && to.path !== '/')
+    return navigateTo({ path: '/' });
 });

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { z } from "zod";
-import type { FormSubmitEvent } from "#ui/types";
-import type { ApiError } from "~/src/types/api";
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
 
-definePageMeta({ middleware: "guest" });
+definePageMeta({ middleware: 'guest' });
 
 const config = useRuntimeConfig();
 const API_URL = config.public.apiUrl;
@@ -15,9 +14,9 @@ const { loading, startLoad, stopLoad } = useLoading();
 
 const schema = z.object({
   email: z
-    .string({ required_error: "Correo requerido" })
-    .email("Correo incorrecto"),
-  password: z.string({ required_error: "Contraseña requerida" }),
+    .string({ required_error: 'Correo requerido' })
+    .email('Correo incorrecto'),
+  password: z.string({ required_error: 'Contraseña requerida' }),
 });
 type Schema = z.output<typeof schema>;
 
@@ -25,25 +24,25 @@ async function submit(event: FormSubmitEvent<Schema>) {
   form.value.clear();
   startLoad();
 
-  await useFetch(API_URL + "/sanctum/csrf-cookie", { credentials: "include" });
+  await useFetch(`${API_URL}/sanctum/csrf-cookie`, { credentials: 'include' });
 
-  const { status, error } = await useFetch(API_URL + "/login", {
-    credentials: "include",
-    method: "POST",
+  const { status, error } = await useFetch(`${API_URL}/login`, {
+    credentials: 'include',
+    method: 'POST',
     headers: headers(),
     body: event.data,
     // `watch: false` to avoid refetch on form input change after first api fetch
     watch: false,
   });
 
-  if (status.value === "error") {
+  if (status.value === 'error') {
     form.value.setErrors(parseApiErrors(error));
 
     return stopLoad();
   }
 
-  await useFetch("/api/user", { key: "user" });
-  return navigateTo("/", { replace: true });
+  await useFetch('/api/user', { key: 'user' });
+  return navigateTo('/', { replace: true });
 }
 </script>
 

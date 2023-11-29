@@ -6,23 +6,23 @@
 version: 2
 updates:
   # Maintain dependencies for pnpm
-  - package-ecosystem: "npm"
-    directory: "/" 
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
     allow:
       # Allow direct updates for all packages
-      - dependency-type: "direct"
+      - dependency-type: direct
     # Always increase the version requirement to match the new version (update pnpm-lock.json).
-    versioning-strategy: "increase"
+    versioning-strategy: increase
     # Set maximum ammount of open Pull Requests
     open-pull-requests-limit: 5
     # Tag for Pull Requests
     labels:
-      - "dependencies"
+      - dependencies
 
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
