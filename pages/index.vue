@@ -12,6 +12,7 @@ async function getTime() {
 }
 
 const { data: user } = useNuxtData<User>('user');
+const pepe = null;
 
 async function logoutUser() {
   const { status } = await useFetch(`${config.public.apiUrl}/logout`, {
