@@ -1,0 +1,28 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Maintain dependencies for pnpm
+  - package-ecosystem: "npm"
+    directory: "/" 
+    schedule:
+      interval: "weekly"
+    allow:
+      # Allow direct updates for all packages
+      - dependency-type: "direct"
+    # Always increase the version requirement to match the new version (update pnpm-lock.json).
+    versioning-strategy: "increase"
+    # Set maximum ammount of open Pull Requests
+    open-pull-requests-limit: 5
+    # Tag for Pull Requests
+    labels:
+      - "dependencies"
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
