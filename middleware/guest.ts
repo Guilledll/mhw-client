@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware((to) => {
   const { data: user } = useNuxtData('user');
 
-  if (user.value && to.path !== '/')
-    return navigateTo({ path: '/' });
+  if (user.value && to.path !== '/calendar')
+    return navigateTo({ path: '/calendar' });
 });

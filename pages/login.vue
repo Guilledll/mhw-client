@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types';
 
-definePageMeta({ middleware: 'guest' });
+definePageMeta({ middleware: 'guest', layout: 'auth' });
 
 const config = useRuntimeConfig();
 const API_URL = config.public.apiUrl;
@@ -42,12 +42,12 @@ async function submit(event: FormSubmitEvent<Schema>) {
   }
 
   await useFetch('/api/user', { key: 'user' });
-  return navigateTo('/', { replace: true });
+  return navigateTo('/calendar', { replace: true });
 }
 </script>
 
 <template>
-  <UContainer class="h-screen flex max-w-xl items-center">
+  <UContainer class="h-full flex max-w-xl items-center">
     <UForm
       ref="form"
       :schema="schema"
