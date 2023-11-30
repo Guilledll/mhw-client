@@ -1,4 +1,6 @@
 {
+  // =============== IDE ===============
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   // =============== NUXT UI ===============
   "tailwindCSS.experimental.configFile": "tailwind.config.ts",
   "tailwindCSS.experimental.classRegex": [
@@ -29,6 +31,7 @@
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
   "editor.formatOnSave": true,
+  "eslint.format.enable": true,
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
