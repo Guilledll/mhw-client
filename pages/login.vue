@@ -42,12 +42,12 @@ async function submit(event: FormSubmitEvent<Schema>) {
   }
 
   await useFetch('/api/user', { key: 'user' });
-  return navigateTo('/calendar', { replace: true });
+  return navigateTo('/', { replace: true });
 }
 </script>
 
 <template>
-  <UContainer class="h-full flex max-w-xl items-center">
+  <UContainer class="flex max-w-xl items-center h-full">
     <UForm
       ref="form"
       :schema="schema"

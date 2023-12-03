@@ -4,21 +4,10 @@
   // =============== NUXT UI ===============
   "tailwindCSS.experimental.configFile": "tailwind.config.ts",
   "tailwindCSS.experimental.classRegex": [
-    [
-      "ui:\\s*{([^)]*)\\s*}",
-      "[\"'`]([^\"'`]*).*?[\"'`]"
-    ],
-    [
-      "/\\*ui\\*/\\s*{([^;]*)}",
-      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
-    ]
+    ["ui:\\s*{([^)]*)\\s*}", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["/\\*ui\\*/\\s*{([^;]*)}", ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
-  "tailwindCSS.classAttributes": [
-    "class",
-    "className",
-    "ngClass",
-    "ui"
-  ],
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", "ui"],
   "files.associations": {
     "*.css": "tailwindcss"
   },
@@ -86,6 +75,15 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
   // ===============================================
 }

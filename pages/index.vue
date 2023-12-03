@@ -3,5 +3,5 @@ definePageMeta({ middleware: 'auth' });
 </script>
 
 <template>
-  <div />
+  Hola don pepito! Hola don jose!
 </template>
