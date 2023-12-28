@@ -10,7 +10,7 @@ export default defineNuxtConfig({
 
   components: false,
 
-  colorMode: { preference: 'light' },
+  colorMode: { preference: 'system' },
 
   devtools: { enabled: true, timeline: { enabled: true } },
 

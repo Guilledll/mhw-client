@@ -54,20 +54,26 @@ async function logoutUser() {
 </script>
 
 <template>
-  <nav class="items-center">
+  <nav class="min-w-full flex justify-center">
     <div
-      class="border border-gray-50 shadow-md rounded-lg hover:bg-black flex justify-end px-4 py-2"
+      class="border border-gray-50 shadow-md rounded-lg flex justify-between items-center px-4 py-2 max-w-5xl flex-1 dark:border-transparent dark:bg-gray-800"
     >
+      <ULink to="/" class="flex items-center gap-2">
+        <UIcon name="i-heroicons-bars-3-center-left" class="h-5 w-5" />
+        <span class="text-lg font-bold"> Mis Horas </span>
+      </ULink>
+
       <UDropdown
         :items="items"
         :ui="{ item: { disabled: 'cursor-default select-text opacity-75' } }"
-        :popper="{ placement: 'bottom-end' }"
+        :popper="{ placement: 'bottom-end', offsetDistance: 20, arrow: true }"
+        class=""
       >
         <UAvatar
-          src="https://avatars.githubusercontent.com/u/54317276?v=4"
+          src="https://avatars.githubusercontent.com/u/54317276?v =4"
           alt="Avatar"
           size="md"
-          class="ring-1 ring-gray-100 hover:outline hover:outline-gray-200 hover:outline-offset-1 transition-opacity dark:ring-gray-800"
+          class="ring-1 ring-gray-100 hover:outline hover:outline-gray-200 hover:outline-offset-1 transition-opacity dark:ring-0 dark:outline-gray-600"
         />
 
         <template #account="{ item }">
