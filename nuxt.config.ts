@@ -18,16 +18,11 @@ export default defineNuxtConfig({
 
   modules: [['@nuxt/ui', { icons: ['heroicons'] }]],
 
-  routeRules: {
-    '/api/**': { proxy: { to: import.meta.env.INTERNAL_API_REGEX } },
-  },
-
   runtimeConfig: {
+    proxyUrl: 'http://localhost/api',
     public: {
       appUrl: 'http://localhost:3000',
       apiUrl: 'http://localhost',
     },
   },
-
-  ssr: true,
 });
