@@ -55,7 +55,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
       class="w-full space-y-4"
       @submit="submit"
     >
-      <UFormGroup label="Email" size="md" name="email">
+      <UFormGroup label="Email" size="lg" name="email">
         <UInput
           v-model="state.email"
           icon="i-heroicons-envelope"
@@ -65,7 +65,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
         />
       </UFormGroup>
 
-      <UFormGroup label="Contraseña" size="md" name="password">
+      <UFormGroup label="Contraseña" size="lg" name="password">
         <UInput
           v-model.lazy="state.password"
           type="password"
@@ -75,7 +75,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
         />
       </UFormGroup>
 
-      <UButton type="submit" variant="soft" size="md" :loading="loading" block>
+      <UButton type="submit" variant="soft" size="lg" :loading="loading" block>
         Ingresar
       </UButton>
     </UForm>

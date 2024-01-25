@@ -1,19 +1,6 @@
 <script lang="ts" setup>
-import type { User } from '~/src/types/models/user';
-
-const { data: user } = useNuxtData<User>('user');
-const config = useRuntimeConfig();
-
-const colorMode = useColorMode();
-
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark';
-  },
-  set() {
-    colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark';
-  },
-});
+const { isDark } = useDarkMode();
+const { logout, user } = useUser();
 
 const items = computed(() => [
   [{ label: 'Mis Horas Web', slot: 'account', disabled: true }],
@@ -30,27 +17,8 @@ const items = computed(() => [
       disabled: true,
     },
   ],
-  [
-    {
-      label: 'Cerrar sesión',
-      icon: 'i-heroicons-arrow-left-on-rectangle',
-      click: logoutUser,
-    },
-  ],
+  [{ label: 'Cerrar sesión', icon: 'i-heroicons-arrow-left-on-rectangle', click: logout }],
 ]);
-
-async function logoutUser() {
-  const { status } = await useFetch(`${config.public.apiUrl}/logout`, {
-    method: 'POST',
-    key: 'user',
-    credentials: 'include',
-    headers: headers(),
-    transform: () => null, // Nullish the user on nuxt state
-  });
-
-  if (status.value === 'success')
-    return navigateTo('/login', { replace: true });
-}
 </script>
 
 <template>
@@ -67,7 +35,6 @@ async function logoutUser() {
         :items="items"
         :ui="{ item: { disabled: 'cursor-default select-text opacity-75' } }"
         :popper="{ placement: 'bottom-end', offsetDistance: 20, arrow: true }"
-        class=""
       >
         <UAvatar
           src="https://avatars.githubusercontent.com/u/54317276?v =4"
@@ -78,9 +45,7 @@ async function logoutUser() {
 
         <template #account="{ item }">
           <div class="text-left space-y-1">
-            <p
-              class="truncate text-base font-medium text-gray-900 dark:text-white"
-            >
+            <p class="truncate text-base font-medium text-gray-900 dark:text-white">
               {{ item.label }}
             </p>
             <p class="text-sm">
