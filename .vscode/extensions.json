@@ -4,8 +4,9 @@
     "mikestead.dotenv",
     "vue.vscode-typescript-vue-plugin",
     "vue.volar",
-    "codeandstuff.package-json-upgrade",
     "editorconfig.editorconfig",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "usernamehw.errorlens",
+    "pflannery.vscode-versionlens"
   ]
 }

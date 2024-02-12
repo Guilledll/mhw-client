@@ -3,7 +3,7 @@ import Navbar from '~/components/nav/Navbar.vue';
 </script>
 
 <template>
-  <main class="p-2 flex flex-col gap-3">
+  <main class="flex flex-col">
     <Navbar />
 
     <slot />

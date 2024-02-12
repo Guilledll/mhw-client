@@ -10,9 +10,9 @@ export default defineNuxtConfig({
 
   components: false,
 
-  colorMode: { preference: 'system' },
+  colorMode: { preference: 'dark' },
 
-  devtools: { enabled: true, timeline: { enabled: true } },
+  devtools: { enabled: true },
 
   devServer: { host: 'localhost' },
 

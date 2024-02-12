@@ -1,21 +1,24 @@
 <script lang="ts" setup>
-const { isDark } = useDarkMode();
+import type { VerticalNavigationLink } from '#ui/types';
+
+// const { isDark, colorMode } = useDarkMode();
 const { logout, user } = useUser();
 
-const items = computed(() => [
-  [{ label: 'Mis Horas Web', slot: 'account', disabled: true }],
+const openSidebar = ref(false);
+
+function closeSidebar() {
+  openSidebar.value = !openSidebar.value
+}
+
+const items = computed<VerticalNavigationLink[][]>(() => [
   [
-    {
-      label: `Modo ${isDark.value ? 'claro' : 'oscuro'}`,
-      icon: isDark.value ? 'i-heroicons-sun' : 'i-heroicons-moon',
-      click: () => (isDark.value = !isDark.value),
-    },
-    {
-      label: 'Ajustes',
-      icon: 'i-heroicons-cog-8-tooth',
-      to: '/settings',
-      disabled: true,
-    },
+    { label: 'Perfil', icon: 'i-heroicons-user-circle', to: '/u/me', click: closeSidebar },
+    // {
+    //   label: 'Cambiar tema',
+    //   icon: isDark.value ? 'i-heroicons-sun' : 'i-heroicons-moon',
+    //   click: () => (isDark.value = !isDark.value),
+    // },
+    { label: 'Ajustes', icon: 'i-heroicons-cog-8-tooth', to: '/settings', click: closeSidebar },
   ],
   [{ label: 'Cerrar sesión', icon: 'i-heroicons-arrow-left-on-rectangle', click: logout }],
 ]);
@@ -24,45 +27,48 @@ const items = computed(() => [
 <template>
   <nav class="min-w-full flex justify-center">
     <div
-      class="border border-gray-50 shadow-md rounded-lg flex justify-between items-center px-4 py-2 max-w-5xl flex-1 dark:border-transparent dark:bg-gray-800"
+      class="flex justify-between items-center px-3 py-2 sm:px-6 sm:py-3 flex-1 sm:border sm:border-gray-100 sm:shadow-md sm:rounded-lg dark:border-transparent dark:bg-gray-900"
     >
       <ULink to="/" class="flex items-center gap-2">
-        <UIcon name="i-heroicons-bars-3-center-left" class="h-5 w-5" />
-        <span class="text-lg font-bold"> Mis Horas </span>
+        <span class="text-lg font-bold">Mis Horas</span>
       </ULink>
 
-      <UDropdown
-        :items="items"
-        :ui="{ item: { disabled: 'cursor-default select-text opacity-75' } }"
-        :popper="{ placement: 'bottom-end', offsetDistance: 20, arrow: true }"
-      >
-        <UAvatar
-          src="https://avatars.githubusercontent.com/u/54317276?v =4"
-          alt="Avatar"
-          size="md"
-          class="ring-1 ring-gray-100 hover:outline hover:outline-gray-200 hover:outline-offset-1 transition-opacity dark:ring-0 dark:outline-gray-600"
-        />
+      <UAvatar
+        src="https://avatars.githubusercontent.com/u/54317276?v =4"
+        alt="Avatar"
+        size="md"
+        class="ring-1 ring-gray-100 cursor-pointer hover:outline hover:outline-gray-200 hover:outline-offset-1 transition-opacity dark:ring-0 dark:outline-gray-600"
+        @click="closeSidebar"
+      />
 
-        <template #account="{ item }">
-          <div class="text-left space-y-1">
-            <p class="truncate text-base font-medium text-gray-900 dark:text-white">
-              {{ item.label }}
-            </p>
-            <p class="text-sm">
-              {{ user?.email }}
-            </p>
-          </div>
-        </template>
+      <USlideover v-model="openSidebar" :ui="{ background: 'dark:bg-gray-900', width: 'max-w-xs', rounded: 'rounded-l-lg' }">
+        <UCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1', padding: 'px-2 py-4 sm:px-2 sm:py-3' }, header: { padding: 'px-4 py-4 sm:px-5' }, ring: '' }">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <UAvatar
+                  src="https://avatars.githubusercontent.com/u/54317276?v =4"
+                  alt="Avatar"
+                  size="sm"
+                  @click="closeSidebar"
+                />
+                <div class="text-left space-y-1">
+                  <p class="truncate text-sm font-medium text-gray-900 dark:text-white">
+                    {{ user?.name }}
+                  </p>
+                </div>
+              </div>
+              <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="openSidebar = false" />
+            </div>
+          </template>
 
-        <template #item="{ item }">
-          <span class="truncate font-normal text-gray-700 dark:text-white">
-            {{ item.label }}</span>
-          <UIcon
-            :name="item.icon"
-            class="flex-shrink-0 h-4 w-4 text-gray-600 dark:text-gray-500 ms-auto"
-          />
-        </template>
-      </UDropdown>
+          <UVerticalNavigation :links="items" class="h-full" :ui="{ inactive: 'text-gray-600', divider: { wrapper: { base: 'py-2 px-0' } } }">
+            <template #icon="{ link }">
+              <UIcon :name="link.icon" class="h-5 w-5" />
+            </template>
+          </UVerticalNavigation>
+        </UCard>
+      </USlideover>
     </div>
   </nav>
 </template>

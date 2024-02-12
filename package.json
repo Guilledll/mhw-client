@@ -11,12 +11,12 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nuxt/ui": "^2.12.3",
+    "@nuxt/ui": "^2.13.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
     "eslint": "^8.56.0",
-    "nuxt": "^3.9.3"
+    "nuxt": "^3.10.0"
   }
 }

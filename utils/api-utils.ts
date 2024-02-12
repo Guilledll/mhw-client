@@ -13,6 +13,7 @@ export function headers(heads: Head = {}): Head {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'Referer': config.public.appUrl,
+    'Cookie': useRequestHeaders(['cookie'])?.cookie,
     ...heads,
   };
 }

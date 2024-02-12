@@ -15,8 +15,8 @@ export function parseApiErrors(error: ResponseError): FormError[] {
   if (!err || !Object.keys(err).length)
     return [];
 
-  return Object.keys(err?.data?.errors).map(key => ({
+  return Object.keys(err?.errors).map(key => ({
     path: key,
-    message: err.data.errors[key][0],
+    message: err.errors[key][0],
   }));
 }

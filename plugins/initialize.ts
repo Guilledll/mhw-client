@@ -1,10 +1,11 @@
 export default defineNuxtPlugin({
   name: 'initialize',
-  order: 0, // First plugin to be loaded
+  order: 1, // Initialized after api is injected
   async setup() {
     try {
+      const { getCurrent } = useUser();
       // Attempt to initalize the user before loading the app
-      await useUser().getCurrent();
+      await useAsyncData('user', () => getCurrent().then(r => r || false));
     }
     catch (error) { }
   },
