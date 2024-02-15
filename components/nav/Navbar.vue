@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { VerticalNavigationLink } from '#ui/types';
 
-// const { isDark, colorMode } = useDarkMode();
+const { isDark } = useDarkMode();
 const { logout, user } = useUser();
 
 const openSidebar = ref(false);
@@ -13,11 +13,7 @@ function closeSidebar() {
 const items = computed<VerticalNavigationLink[][]>(() => [
   [
     { label: 'Perfil', icon: 'i-heroicons-user-circle', to: '/u/me', click: closeSidebar },
-    // {
-    //   label: 'Cambiar tema',
-    //   icon: isDark.value ? 'i-heroicons-sun' : 'i-heroicons-moon',
-    //   click: () => (isDark.value = !isDark.value),
-    // },
+    { label: 'Tema', icon: isDark.value ? 'i-heroicons-sun' : 'i-heroicons-moon', click: () => (isDark.value = !isDark.value) },
     { label: 'Ajustes', icon: 'i-heroicons-cog-8-tooth', to: '/settings', click: closeSidebar },
   ],
   [{ label: 'Cerrar sesión', icon: 'i-heroicons-arrow-left-on-rectangle', click: logout }],
@@ -27,7 +23,7 @@ const items = computed<VerticalNavigationLink[][]>(() => [
 <template>
   <nav class="min-w-full flex justify-center">
     <div
-      class="flex justify-between items-center px-3 py-2 sm:px-6 sm:py-3 flex-1 sm:border sm:border-gray-100 sm:shadow-md sm:rounded-lg dark:border-transparent dark:bg-gray-900"
+      class="flex justify-between items-center px-3 py-2 sm:px-6 sm:py-3 flex-1 sm:border-b sm:border-gray-100 sm:shadow-md sm:rounded-b-lg dark:border-transparent dark:bg-gray-900"
     >
       <ULink to="/" class="flex items-center gap-2">
         <span class="text-lg font-bold">Mis Horas</span>
@@ -42,7 +38,7 @@ const items = computed<VerticalNavigationLink[][]>(() => [
       />
 
       <USlideover v-model="openSidebar" :ui="{ background: 'dark:bg-gray-900', width: 'max-w-xs', rounded: 'rounded-l-lg' }">
-        <UCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1', padding: 'px-2 py-4 sm:px-2 sm:py-3' }, header: { padding: 'px-4 py-4 sm:px-5' }, ring: '' }">
+        <LazyUCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1', padding: 'px-2 py-4 sm:px-2 sm:py-3' }, header: { padding: 'px-4 py-4 sm:px-5' }, ring: '' }">
           <template #header>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
@@ -58,16 +54,16 @@ const items = computed<VerticalNavigationLink[][]>(() => [
                   </p>
                 </div>
               </div>
-              <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="openSidebar = false" />
+              <LazyUButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="openSidebar = false" />
             </div>
           </template>
 
-          <UVerticalNavigation :links="items" class="h-full" :ui="{ inactive: 'text-gray-600', divider: { wrapper: { base: 'py-2 px-0' } } }">
+          <LazyUVerticalNavigation :links="items" class="h-full" :ui="{ inactive: 'text-gray-600', divider: { wrapper: { base: 'py-2 px-0' } } }">
             <template #icon="{ link }">
               <UIcon :name="link.icon" class="h-5 w-5" />
             </template>
-          </UVerticalNavigation>
-        </UCard>
+          </LazyUVerticalNavigation>
+        </LazyUCard>
       </USlideover>
     </div>
   </nav>

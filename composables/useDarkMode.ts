@@ -6,7 +6,7 @@ export function useDarkMode() {
       return colorMode.value === 'dark';
     },
     set() {
-      colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark';
+      colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark';
     },
   });
 
