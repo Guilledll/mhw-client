@@ -12,18 +12,19 @@ function closeSidebar() {
 
 const items = computed<VerticalNavigationLink[][]>(() => [
   [
-    { label: 'Perfil', icon: 'i-heroicons-user-circle', to: '/u/me', click: closeSidebar },
-    { label: 'Tema', icon: isDark.value ? 'i-heroicons-sun' : 'i-heroicons-moon', click: () => (isDark.value = !isDark.value) },
-    { label: 'Ajustes', icon: 'i-heroicons-cog-8-tooth', to: '/settings', click: closeSidebar },
+    { label: 'Perfil', icon: 'i-heroicons-user-16-solid', to: '/u/me', click: closeSidebar },
+    { label: 'Workspace', icon: 'i-heroicons-user-group-solid', to: '/w' },
+    { label: 'Ajustes', icon: 'i-heroicons-cog-6-tooth-solid', to: '/settings', click: closeSidebar },
   ],
-  [{ label: 'Cerrar sesión', icon: 'i-heroicons-arrow-left-on-rectangle', click: logout }],
+  [{ label: 'Tema', icon: isDark.value ? 'i-heroicons-sun-16-solid' : 'i-heroicons-moon-16-solid', click: () => (isDark.value = !isDark.value) }],
+  [{ label: 'Cerrar sesión', icon: 'i-heroicons-arrow-right-start-on-rectangle-16-solid', click: logout }],
 ]);
 </script>
 
 <template>
   <nav class="min-w-full flex justify-center">
     <div
-      class="flex justify-between items-center px-3 py-2 sm:px-6 sm:py-3 flex-1 sm:border-b sm:border-gray-100 sm:shadow-md sm:rounded-b-lg dark:border-transparent dark:bg-gray-900"
+      class="flex justify-between items-center px-3 py-2 sm:px-6 sm:py-3 flex-1 sm:border-b sm:border-gray-100 sm:shadow-md dark:border-transparent dark:bg-gray-900"
     >
       <ULink to="/" class="flex items-center gap-2">
         <span class="text-lg font-bold">Mis Horas</span>
