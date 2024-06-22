@@ -6,10 +6,10 @@
 version: 2
 updates:
   # Maintain dependencies for pnpm
-  - package-ecosystem: npm
+  - package-ecosystem: ""
     directory: /
     schedule:
-      interval: weekly
+      interval: ""
     allow:
       # Allow direct updates for all packages
       - dependency-type: direct
