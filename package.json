@@ -17,6 +17,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
     "eslint": "^8.56.0",
-    "nuxt": "^3.10.2"
+    "nuxt": "^3.12.2"
   }
 }
