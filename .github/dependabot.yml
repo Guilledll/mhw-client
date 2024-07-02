@@ -16,7 +16,7 @@ updates:
     # Always increase the version requirement to match the new version (update pnpm-lock.json).
     versioning-strategy: increase
     # Set maximum ammount of open Pull Requests
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     # Tag for Pull Requests
     labels:
       - dependencies
